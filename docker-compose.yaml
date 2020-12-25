@@ -1,0 +1,23 @@
+version: '3.0'
+
+volumes:
+  mongodb_volume:
+
+services:
+  telegram_notify_bot:
+    build: .
+    image: telegram-notify-bot
+    command: ./launch_bot.sh
+    environment:
+      - MONGODB_ADDR=mongodb
+    ports:
+      - '80:80'
+      - '443:443'
+      - '8080:8080'
+    restart: 'no'
+
+  mongodb:
+    image: mongo:latest
+    volumes:
+        - mongodb_volume:/data/db
+    restart: 'no'
